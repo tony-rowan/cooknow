@@ -1,14 +1,17 @@
 class SearchesController < ApplicationController
   def show
-    ai_search_request = AiSearchRequest.new(**search)
+    question = search.next_unanswered_question
 
-    render locals: { search:, ai_search_request: }
+    if question.nil?
+      ai_search_request = AiSearchRequest.new(**search.to_params)
+      render locals: { search:, ai_search_request: }
+    else
+      redirect_to action: :new
+    end
   end
 
   def new
-    answered_question_types = search.keys
-    left_to_ask = questions.reject { _1[:category].to_sym.in?(answered_question_types) }
-    question = left_to_ask.first
+    question = search.next_unanswered_question
 
     if question.nil?
       redirect_to action: :show
@@ -18,7 +21,8 @@ class SearchesController < ApplicationController
   end
 
   def create
-    session[:search] = search.merge(answer)
+    search.add_answer(category: params[:category], answer: params[:answer])
+    session[:search] = search.to_params
     redirect_to action: :new
   end
 
@@ -30,15 +34,7 @@ class SearchesController < ApplicationController
   private
 
   def search
-    (session[:search] || {}).transform_keys(&:to_sym)
-  end
-
-  def answer
-    if params[:category] == "ingredients"
-      { params[:category] => [params[:answer]] }
-    else
-      { params[:category] => params[:answer] }
-    end
+    @_search ||= Search.new(**(session[:search] || {}).transform_keys(&:to_sym))
   end
 
   def questions
