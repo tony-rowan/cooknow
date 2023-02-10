@@ -1,6 +1,4 @@
 class SearchesController < ApplicationController
-  before_action :set_search
-
   def show
     question = search.next_unanswered_question
 
@@ -8,7 +6,7 @@ class SearchesController < ApplicationController
       recipe = OpenAi::RecipeSuggestion.new(**search.to_params).recipe
       render locals: { recipe: }
     else
-      redirect_to action: :new
+      redirect_to action: :new, params: { search: search.to_params }
     end
   end
 
@@ -16,49 +14,23 @@ class SearchesController < ApplicationController
     question = search.next_unanswered_question
 
     if question.nil?
-      redirect_to action: :show
+      redirect_to action: :show, params: { search: search.to_params }
     else
-      render locals: { question: }
+      render locals: { search:, question: }
     end
   end
 
   def create
-    search.add_answer(category: params[:category], answer: params[:answer])
-    session[:search] = search.to_params
-    redirect_to action: :new
+    redirect_to action: :new, params: { search: search.to_params }
   end
 
   def destroy
-    session[:search] = {}
     redirect_to action: :new
   end
 
   private
 
-  attr_reader :search
-  helper_method :search
-
-  def set_search
-    @search = Search.new(**(session[:search] || {}).transform_keys(&:to_sym))
-  end
-
-  def questions
-    [
-      {
-        category: "type",
-        question: "What do you want to make?",
-        answers: ["Main Meal", "Light Snack", "Dessert"]
-      },
-      {
-        category: "cuisine",
-        question: "What cuisine would you like to try?",
-        answers: ["Indian", "Chinese", "Italian", "Spanish"]
-      },
-      {
-        category: "ingredients",
-        question: "What do you have in your fridge?",
-        answers: ["Chicken", "Eggs", "Thyme", "Sugar"]
-      }
-    ]
+  def search
+    @_search ||= Search.for(params)
   end
 end

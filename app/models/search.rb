@@ -1,5 +1,15 @@
 class Search
+  CATEGORIES = %i(type cuisine ingredients)
+
   attr_reader :type, :cuisine, :ingredients
+
+  def self.for(params)
+    if params.key?(:search)
+      new(**params.require(:search).permit(*CATEGORIES).slice(*CATEGORIES).to_h.symbolize_keys)
+    else
+      new
+    end
+  end
 
   def initialize(type: nil, cuisine: nil, ingredients: nil)
     @type = type
@@ -8,42 +18,12 @@ class Search
   end
 
   def next_unanswered_question
-    answered_question_types = to_params.compact.keys
-    left_to_ask = questions.reject { _1[:category].in?(answered_question_types) }
-    left_to_ask.first
-  end
+    category = (CATEGORIES - to_params.keys).first
 
-  def add_answer(category:, answer:)
-    case category.to_sym
-    when :type then @type = answer
-    when :cuisine then @cuisine = answer
-    when :ingredients then @ingredients = Array.wrap(answer)
-    end
+    SearchQuestion.for(category:)
   end
 
   def to_params
-    { type:, cuisine:, ingredients: }
-  end
-
-  private
-
-  def questions
-    [
-      {
-        category: :type,
-        question: "What do you want to make?",
-        answers: ["Main Meal", "Light Snack", "Dessert"]
-      },
-      {
-        category: :cuisine,
-        question: "What cuisine would you like to try?",
-        answers: ["Indian", "Chinese", "Italian", "Spanish"]
-      },
-      {
-        category: :ingredients,
-        question: "What do you have in your fridge?",
-        answers: ["Chicken", "Eggs", "Thyme", "Sugar"]
-      }
-    ]
+    { type:, cuisine:, ingredients: }.compact
   end
 end
