@@ -1,1 +1,21 @@
-<p><%= ai_search_request.request %></p>
+<h2 class="font-medium text-xl py-4">
+  <%= recipe[:title] %>
+</h2>
+
+<h3 class="font-medium text-lg py-2">
+  Ingredients
+</h3>
+<ol>
+  <% recipe[:ingredients].each do |ingredient| %>
+    <li><%= ingredient %></li>
+  <% end %>
+</ol>
+
+<h3 class="font-medium text-lg py-2">
+  Steps
+</h3>
+<ol>
+  <% recipe[:steps].each do |step| %>
+    <li><%= step %></li>
+  <% end %>
+</ol>

@@ -5,8 +5,8 @@ class SearchesController < ApplicationController
     question = search.next_unanswered_question
 
     if question.nil?
-      ai_search_request = AiSearchRequest.new(**search.to_params)
-      render locals: { ai_search_request: }
+      recipe = AiSearchRequest.new(**search.to_params).recipe
+      render locals: { recipe: }
     else
       redirect_to action: :new
     end
