@@ -1,0 +1,19 @@
+<div>
+  <h1>Cooknow</h1>
+
+  <h2><%= question[:question] %></h2>
+
+  <div>
+    <% question[:answers].each do |answer| %>
+      <%= button_to :search, params: { category: question[:category], answer: answer } do %>
+        <%= answer %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= button_to "Start Again", :search, method: :delete %>
+
+  <pre>
+    <%= search.inspect %>
+  </pre>
+</div>
