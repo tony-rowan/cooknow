@@ -1,18 +1,13 @@
 class SearchesController < ApplicationController
   def show
-    search = session[:search] || {}
+    ai_search_request = AiSearchRequest.new(**search)
 
-    render locals: {
-      search: search,
-      chat_gpt_request: "Please write a recipe for a #{search["type"]} that includes #{search["ingredient"]}, inspired by #{search["cuisine"]} cuisine."
-    }
+    render locals: { search:, ai_search_request: }
   end
 
   def new
-    search = session[:search] || {}
-
     answered_question_types = search.keys
-    left_to_ask = questions.reject { _1[:category].in?(answered_question_types) }
+    left_to_ask = questions.reject { _1[:category].to_sym.in?(answered_question_types) }
     question = left_to_ask.first
 
     if question.nil?
@@ -23,8 +18,7 @@ class SearchesController < ApplicationController
   end
 
   def create
-    search = session[:search] || {}
-    session[:search] = search.merge(params[:category] => params[:answer])
+    session[:search] = search.merge(answer)
     redirect_to action: :new
   end
 
@@ -34,6 +28,18 @@ class SearchesController < ApplicationController
   end
 
   private
+
+  def search
+    (session[:search] || {}).transform_keys(&:to_sym)
+  end
+
+  def answer
+    if params[:category] == "ingredients"
+      { params[:category] => [params[:answer]] }
+    else
+      { params[:category] => params[:answer] }
+    end
+  end
 
   def questions
     [
@@ -48,7 +54,7 @@ class SearchesController < ApplicationController
         answers: ["Indian", "Chinese", "Italian", "Spanish"]
       },
       {
-        category: "ingredient",
+        category: "ingredients",
         question: "What do you have in your fridge?",
         answers: ["Chicken", "Eggs", "Thyme", "Sugar"]
       }
