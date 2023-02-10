@@ -1,10 +1,12 @@
 class SearchesController < ApplicationController
+  before_action :set_search
+
   def show
     question = search.next_unanswered_question
 
     if question.nil?
       ai_search_request = AiSearchRequest.new(**search.to_params)
-      render locals: { search:, ai_search_request: }
+      render locals: { ai_search_request: }
     else
       redirect_to action: :new
     end
@@ -16,7 +18,7 @@ class SearchesController < ApplicationController
     if question.nil?
       redirect_to action: :show
     else
-      render locals: { search:, question: }
+      render locals: { question: }
     end
   end
 
@@ -33,8 +35,11 @@ class SearchesController < ApplicationController
 
   private
 
-  def search
-    @_search ||= Search.new(**(session[:search] || {}).transform_keys(&:to_sym))
+  attr_reader :search
+  helper_method :search
+
+  def set_search
+    @search = Search.new(**(session[:search] || {}).transform_keys(&:to_sym))
   end
 
   def questions

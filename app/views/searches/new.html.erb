@@ -1,19 +1,11 @@
-<div>
-  <h1>Cooknow</h1>
+<h2 class="font-medium text-xl text-center p-8">
+  <%= question[:question] %>
+</h2>
 
-  <h2><%= question[:question] %></h2>
-
-  <div>
-    <% question[:answers].each do |answer| %>
-      <%= button_to :search, params: { category: question[:category], answer: answer } do %>
-        <%= answer %>
-      <% end %>
+<div class="flex gap-4">
+  <% question[:answers].each do |answer| %>
+    <%= button_to :search, params: { category: question[:category], answer: answer }, class: "rounded shadow bg-orange-500 hover:bg-orange-700 px-8 py-4 text-white" do %>
+      <%= answer %>
     <% end %>
-  </div>
-
-  <%= button_to "Start Again", :search, method: :delete %>
-
-  <pre>
-    <%= search.inspect %>
-  </pre>
+  <% end %>
 </div>
