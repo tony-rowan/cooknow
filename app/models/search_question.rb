@@ -31,4 +31,8 @@ class SearchQuestion
     @question = question
     @answers = answers
   end
+
+  def select_multiple?
+    category == :ingredients
+  end
 end

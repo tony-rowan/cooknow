@@ -2,12 +2,33 @@
   <%= question.question %>
 </h2>
 
-<div class="flex gap-4 flex-wrap justify-center">
-  <% question.answers.each do |answer| %>
-    <%= button_to :search,
-      params: { search: search.to_params.merge(question.category => answer) },
-      class: "rounded shadow bg-orange-500 hover:bg-orange-700 px-8 py-4 text-white uppercase" do %>
-      <%= answer %>
+<% if question.select_multiple? %>
+  <div data-controller="checkbox-array">
+    <div class="flex gap-4 flex-wrap justify-center">
+      <% question.answers.each do |answer| %>
+        <div>
+          <%= check_box_tag answer, answer, false, data: { checkbox_array_target: "item" }, class: "peer hidden" %>
+          <%= label_tag answer, answer,
+            class: "block rounded shadow bg-orange-500 hover:bg-orange-700 px-8 py-4 text-white uppercase peer-checked:outline peer-checked:outline-offset-2 peer-checked:outline-4 peer-checked:outline-orange-600 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= button_to "Search", :search,
+      params: { search: search.to_params },
+      data: { action: "checkbox-array#addItems", checkbox_array_target: "form" },
+      class: "mt-12 mx-auto block rounded shadow bg-purple-500 hover:bg-purple-700 px-8 py-4 text-white uppercase" %>
+  </div>
+<% else %>
+
+  <div class="flex gap-4 flex-wrap justify-center">
+    <% question.answers.each do |answer| %>
+      <%= button_to :search,
+        params: { search: search.to_params.merge(question.category => answer) },
+        class: "rounded shadow bg-orange-500 hover:bg-orange-700 px-8 py-4 text-white uppercase" do %>
+        <%= answer %>
+      <% end %>
     <% end %>
-  <% end %>
-</div>
+  </div>
+
+<% end %>

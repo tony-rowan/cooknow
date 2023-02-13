@@ -36,7 +36,7 @@ class SearchesController < ApplicationController
 
   def search_params
     if params.key?(:search)
-      params.require(:search).permit(%i(type cuisine ingredients))
+      params.require(:search).permit([:type, :cuisine, {ingredients: []}])
     else
       {}
     end
