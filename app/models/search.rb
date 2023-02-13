@@ -1,26 +1,21 @@
 class Search
-  CATEGORIES = %i(type cuisine ingredients)
-
-  attr_reader :type, :cuisine, :ingredients
-
-  def self.for(params)
-    if params.key?(:search)
-      new(**params.require(:search).permit(*CATEGORIES).slice(*CATEGORIES).to_h.symbolize_keys)
-    else
-      new
-    end
-  end
-
-  def initialize(type: nil, cuisine: nil, ingredients: nil)
-    @type = type
-    @cuisine = cuisine
-    @ingredients = ingredients
-  end
+  include ActiveModel::Model
+  attr_accessor :type, :cuisine, :ingredients
 
   def next_unanswered_question
-    category = (CATEGORIES - to_params.keys).first
+    if type && cuisine && ingredients
+      return nil
+    end
 
-    SearchQuestion.for(category:)
+    if type && cuisine
+      return SearchQuestion.for(category: :ingredients, type: type, cuisine: cuisine)
+    end
+
+    if type
+      return SearchQuestion.for(category: :cuisine, type: type)
+    end
+
+    SearchQuestion.for(category: :type)
   end
 
   def to_params

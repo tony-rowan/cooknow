@@ -6,7 +6,7 @@ module OpenAi
     end
 
     def text
-      raw_response["choices"].first["text"]
+      response["choices"].first["text"]
     end
 
     private

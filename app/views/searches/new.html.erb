@@ -6,7 +6,7 @@
   <% question.answers.each do |answer| %>
     <%= button_to :search,
       params: { search: search.to_params.merge(question.category => answer) },
-      class: "rounded shadow bg-orange-500 hover:bg-orange-700 px-8 py-4 text-white" do %>
+      class: "rounded shadow bg-orange-500 hover:bg-orange-700 px-8 py-4 text-white uppercase" do %>
       <%= answer %>
     <% end %>
   <% end %>

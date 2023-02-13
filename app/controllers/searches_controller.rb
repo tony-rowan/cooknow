@@ -31,6 +31,14 @@ class SearchesController < ApplicationController
   private
 
   def search
-    @_search ||= Search.for(params)
+    @_search ||= Search.new(search_params)
+  end
+
+  def search_params
+    if params.key?(:search)
+      params.require(:search).permit(%i(type cuisine ingredients))
+    else
+      {}
+    end
   end
 end

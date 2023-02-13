@@ -1,7 +1,7 @@
 class SearchQuestion
   attr_reader :category, :question, :answers
 
-  def self.for(category:)
+  def self.for(category:, type: nil, cuisine: nil)
     case category
     when :type
       new(
@@ -13,13 +13,13 @@ class SearchQuestion
       new(
         category: :cuisine,
         question: "Which cuisine do you want to try?",
-        answers: OpenAi::CuisineSuggestion.new.cuisines
+        answers: OpenAi::CuisineSuggestion.new(type:).cuisines
       )
     when :ingredients
       new(
         category: :ingredients,
         question: "What ingredients do you have available?",
-        answers: OpenAi::IngredientsSuggestion.new.ingredients
+        answers: OpenAi::IngredientsSuggestion.new(type:, cuisine:).ingredients
       )
     else
       nil
