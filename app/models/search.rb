@@ -18,6 +18,10 @@ class Search
     SearchQuestion.for(category: :type)
   end
 
+  def ingredients=(new_ingredients)
+    @ingredients = new_ingredients&.compact_blank
+  end
+
   def to_params
     { type:, cuisine:, ingredients: }.compact
   end

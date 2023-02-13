@@ -3,22 +3,23 @@
 </h2>
 
 <% if question.select_multiple? %>
-  <div data-controller="checkbox-array">
+  <%= form_with model: search, url: search_path do |form| %>
+    <% search.to_params.each do |key, value| %>
+      <%= form.hidden_field key, value: value %>
+    <% end %>
+
     <div class="flex gap-4 flex-wrap justify-center">
-      <% question.answers.each do |answer| %>
+      <%= form.collection_check_boxes :ingredients, question.answers, :to_s, :to_s, class: "peer hidden" do |builder| %>
         <div>
-          <%= check_box_tag answer, answer, false, data: { checkbox_array_target: "item" }, class: "peer hidden" %>
-          <%= label_tag answer, answer,
-            class: "block rounded shadow bg-orange-500 hover:bg-orange-700 px-8 py-4 text-white uppercase peer-checked:outline peer-checked:outline-offset-2 peer-checked:outline-4 peer-checked:outline-orange-600 cursor-pointer" %>
+          <%= builder.check_box(class: "peer hidden") %>
+          <%= builder.label(class: "block rounded shadow bg-orange-500 hover:bg-orange-700 px-8 py-4 text-white uppercase peer-checked:outline peer-checked:outline-offset-2 peer-checked:outline-4 peer-checked:outline-orange-600 cursor-pointer") %>
         </div>
       <% end %>
     </div>
 
-    <%= button_to "Search", :search,
-      params: { search: search.to_params },
-      data: { action: "checkbox-array#addItems", checkbox_array_target: "form" },
-      class: "mt-12 mx-auto block rounded shadow bg-purple-500 hover:bg-purple-700 px-8 py-4 text-white uppercase" %>
-  </div>
+    <%= form.submit "Search",
+      class: "mt-12 mx-auto block rounded shadow bg-purple-500 hover:bg-purple-700 px-8 py-4 text-white uppercase cursor-pointer" %>
+  <% end %>
 <% else %>
 
   <div class="flex gap-4 flex-wrap justify-center">

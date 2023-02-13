@@ -5,7 +5,7 @@ module OpenAi
     def initialize(type:, cuisine:, ingredients:)
       @type = type
       @cuisine = cuisine
-      @ingredients = Array.wrap(ingredients)
+      @ingredients = ingredients
     end
 
     def recipe
