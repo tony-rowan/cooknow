@@ -2,11 +2,11 @@
   <% content_for(:selections, search.to_params.values.join(", ")) %>
 <% end %>
 
-<div class="relative rounded-lg shadow h-64 overflow-hidden mb-6">
-  <%= image_tag recipe_image.url, class: "object-fit w-full h-auto" %>
+<div class="relative rounded-lg shadow h-80 overflow-hidden mb-6">
+  <%= image_tag recipe.image.url, class: "object-fit w-full h-auto" %>
 
   <h2 class="font-medium text-2xl px-8 py-4 absolute left-0 bottom-0 right-0 text-white bg-gradient-to-t from-black/60">
-    <%= recipe[:title] %>
+    <%= recipe.title %>
   </h2>
 </div>
 
@@ -14,7 +14,7 @@
   Ingredients
 </h3>
 <ol>
-  <% recipe[:ingredients].each do |ingredient| %>
+  <% recipe.ingredients.each do |ingredient| %>
     <li><%= ingredient %></li>
   <% end %>
 </ol>
@@ -23,7 +23,10 @@
   Steps
 </h3>
 <ol>
-  <% recipe[:steps].each do |step| %>
-    <li><%= step %></li>
+  <% recipe.steps.each do |step| %>
+    <li class="flex gap-4 mb-4">
+      <%= image_tag step.image.url, class: "w-32 h-32 rounded" %>
+      <%= step.text %>
+    </li>
   <% end %>
 </ol>

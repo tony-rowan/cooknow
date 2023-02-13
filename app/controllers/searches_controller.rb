@@ -3,9 +3,8 @@ class SearchesController < ApplicationController
     question = search.next_unanswered_question
 
     if question.nil?
-      recipe = OpenAi::RecipeSuggestion.new(**search.to_params).recipe
-      recipe_image = OpenAi::RecipeImageSuggestion.new(recipe: recipe)
-      render locals: { recipe:, recipe_image:, search: }
+      recipe = Recipe.for(search)
+      render locals: { recipe:, search: }
     else
       redirect_to action: :new, params: { search: search.to_params }
     end
