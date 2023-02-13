@@ -1,3 +1,7 @@
+<% if search.to_params.present? %>
+  <% content_for(:selections, search.to_params.values.join(", ")) %>
+<% end %>
+
 <h2 class="font-medium text-xl py-4">
   <%= recipe[:title] %>
 </h2>

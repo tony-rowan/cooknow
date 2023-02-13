@@ -4,7 +4,7 @@ class SearchesController < ApplicationController
 
     if question.nil?
       recipe = OpenAi::RecipeSuggestion.new(**search.to_params).recipe
-      render locals: { recipe: }
+      render locals: { recipe:, search: }
     else
       redirect_to action: :new, params: { search: search.to_params }
     end

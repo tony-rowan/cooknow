@@ -21,13 +21,20 @@
         <div class="p-8 flex-grow">
           <%= yield %>
         </div>
-
-        <div class="p-8">
-          <%= button_to "Start Again", :search,
-            method: :delete,
-            class: "w-full px-16 py-4 bg-blue-500 hover:bg-blue-700 text-white rounded shadow" %>
-        </div>
       </div>
+
+      <footer class="w-full p-12 bg-gray-300">
+        <% if content_for?(:selections) %>
+          <p class="mx-auto max-w-screen-md text-gray-600 mb-4 text-center">
+            Your selections: <%= yield(:selections) %>
+          </p>
+        <% end %>
+
+        <%= button_to "Start Again", :search,
+          method: :delete,
+          class: "block w-80 mx-auto px-16 py-4 bg-blue-500 hover:bg-blue-700 text-white rounded shadow" %>
+        </div>
+      </footer>
     </main>
   </body>
 </html>

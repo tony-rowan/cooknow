@@ -51,7 +51,7 @@ module OpenAi
     end
 
     def prompt
-      "Please write a recipe with a title including ingredients and instructions for a #{type} inspired by the #{cuisine} cuisine, that includes #{ingredients.join(",")}."
+      "Please write a recipe with a title including ingredients and instructions for a #{type} inspired by the #{cuisine} cuisine, that includes #{ingredients.join(", ")}."
     end
   end
 end
