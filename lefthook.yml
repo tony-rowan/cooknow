@@ -5,5 +5,5 @@ pre-commit:
       run: npx prettier --ignore-unknown --write {staged_files} && git add {staged_files}
     standardrb:
       run: bin/standardrb --fix --only-recognized-file-types --force-exclusion {staged_files} && git add {staged_files}
-    rspec:
+    test:
       run: bin/rails test:system
