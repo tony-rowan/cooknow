@@ -10,18 +10,6 @@ jobs:
   SystemTests:
     runs-on: ubuntu-latest
     name: "System Tests"
-    services:
-      postgres:
-        image: postgres
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_PASSWORD: password
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -29,29 +17,11 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: Create database
-        run: bin/rails db:create
-      - name: Load database schema
-        run: bin/rails db:schema:load && bin/rails db:migrate
-      - name: Build assets
-        run: bin/rails assets:precompile
       - name: Run System Tests
         run: bin/rails test:system
   UnitTests:
     runs-on: ubuntu-latest
     name: "Unit Tests"
-    services:
-      postgres:
-        image: postgres
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_PASSWORD: password
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -59,9 +29,5 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: Create database
-        run: bin/rails db:create
-      - name: Load database schema
-        run: bin/rails db:schema:load && bin/rails db:migrate
       - name: Run Unit Tests
         run: bin/rails test
