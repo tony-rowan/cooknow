@@ -21,6 +21,8 @@ group :development, :test do
 end
 
 group :development do
+  gem "lefthook"
+  gem "standard"
   gem "web-console"
 end
 

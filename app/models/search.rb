@@ -1,6 +1,7 @@
 class Search
   include ActiveModel::Model
-  attr_accessor :type, :cuisine, :ingredients
+  attr_accessor :type, :cuisine
+  attr_reader :ingredients
 
   def next_unanswered_question
     if type && cuisine && ingredients
@@ -23,6 +24,6 @@ class Search
   end
 
   def to_params
-    { type:, cuisine:, ingredients: }.compact
+    {type:, cuisine:, ingredients:}.compact
   end
 end

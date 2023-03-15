@@ -1,6 +1,5 @@
 module OpenAi
   class MealTypeSuggestion
-
     def meal_types
       text_suggestion.split(",").compact_blank.map(&:strip)
     end

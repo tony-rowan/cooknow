@@ -33,7 +33,7 @@ module OpenAi
         end
       end
 
-      { title:, ingredients:, steps: }
+      {title:, ingredients:, steps:}
     end
 
     private

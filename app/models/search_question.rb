@@ -21,8 +21,6 @@ class SearchQuestion
         question: "What ingredients do you have available?",
         answers: OpenAi::IngredientsSuggestion.new(type:, cuisine:).ingredients
       )
-    else
-      nil
     end
   end
 

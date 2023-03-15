@@ -1,6 +1,5 @@
 module OpenAi
   class CuisineSuggestion
-
     def initialize(type:)
       @type = type
     end
