@@ -24,7 +24,7 @@
 </h3>
 <ol>
   <% recipe.steps.each do |step| %>
-    <li class="flex gap-4 mb-4">
+    <li class="md:flex gap-4 mb-4">
       <%= image_tag step.image.url, class: "w-32 h-32 rounded" %>
       <%= step.text %>
     </li>
