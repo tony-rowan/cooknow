@@ -12,29 +12,12 @@
   </head>
 
   <body>
-    <main class="flex flex-col items-center min-h-screen">
-      <div class="flex flex-col flex-grow w-full max-w-screen-md">
-        <h1 class="text-3xl font-medium text-center p-8 flex-grow">
-          Cooknow
-        </h1>
+    <main class="flex flex-col items-center">
+      <%= render "navigation" %>
 
-        <div class="p-8 flex-grow">
-          <%= yield %>
-        </div>
+      <div class="p-8 pt-44 flex-grow max-w-screen-md">
+        <%= yield %>
       </div>
-
-      <footer class="w-full p-12 bg-gray-300">
-        <% if content_for?(:selections) %>
-          <p class="mx-auto max-w-screen-md text-gray-600 mb-4 text-center">
-            Your selections: <%= yield(:selections) %>
-          </p>
-        <% end %>
-
-        <%= button_to "Start Again", :search,
-          method: :delete,
-          class: "block w-80 mx-auto px-16 py-4 bg-blue-500 hover:bg-blue-700 text-white rounded shadow" %>
-        </div>
-      </footer>
     </main>
   </body>
 </html>

@@ -1,0 +1,13 @@
+<div class="fixed z-10 p-8 bg-gray-300 w-full">
+  <div class="flex items-center max-w-screen-lg mx-auto">
+    <h1 class="text-3xl font-semibold">
+      Cooknow
+    </h1>
+
+    <div class="flex-grow"></div>
+
+    <%= button_to "Start Over", :search,
+      method: :delete,
+      class: "block mx-auto px-16 py-4 bg-blue-500 hover:bg-blue-700 text-white rounded shadow" %>
+  </div>
+</div>
