@@ -7,6 +7,7 @@ gem "rails"
 
 gem "bootsnap", require: false
 gem "importmap-rails"
+gem "inline_svg"
 gem "puma"
 gem "redis"
 gem "ruby-openai"

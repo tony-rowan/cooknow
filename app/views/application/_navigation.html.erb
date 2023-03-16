@@ -4,8 +4,11 @@
 
     <div class="flex-grow"></div>
 
-    <%= button_to "Start Over", :search,
+    <%= button_to :search,
       method: :delete,
-      class: "block mx-auto px-16 py-4 bg-blue-500 hover:bg-blue-700 text-white rounded shadow" %>
+      class: "flex items-center gap-2 mx-auto px-8 py-4 bg-sky-500 hover:bg-blue-600 text-white rounded shadow" do %>
+      <%= inline_svg_tag "icons/restart.svg", class: "w-6 h-6" %>
+      <span>Start Over</span>
+    <% end %>
   </div>
 </div>
